@@ -1,0 +1,45 @@
+import com.sun.javafx.runtime.SystemProperties
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.testng:testng:6.14.3'
+    compile 'org.seleniumhq.selenium:selenium-java:3.14.0'
+    compile "com.beust:jcommander:1.72"
+    compile("com.thoughtworks.xstream:xstream:1.4.11.1")
+}
+
+task testAdminInterface(type: Test) {
+    useTestNG {
+        suites 'src/test/resources/testng-adminInterface.xml'
+    }
+    if(project.hasProperty('browser')){
+        systemProperty 'browser', "${browser}"
+    }
+    if(project.hasProperty('target')){
+        systemProperty 'target', "${target}"
+    }
+
+}
+
+task testUsersInterface(type: Test) {
+    useTestNG {
+        suites 'src/test/resources/testng-usersInterface.xml'
+    }
+    if(progect.hasProperty('browser')){
+        SystemProperty 'browser', "${browser}"
+    }
+    if(progect.hasProperty('target')){
+        SystemProperty 'target', "${target}"
+    }
+}
+
+task createWrapper(type: Wrapper) {
+    gradleVersion = '4.8'
+};
